@@ -1,5 +1,8 @@
 "use server";
 
+import { Resend } from "resend";
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 import { createClient } from "@/lib/supabase/server";
 export async function addPlayer({
   campaignId,
@@ -64,4 +67,49 @@ const { data: players, error } = await supabase
 }
 
 return players ?? [];
+}
+export async function sendPlayerInvite(playerId: string) {
+  const supabase = await createClient();
+
+  const { data: player, error } = await supabase
+    .from("players")
+    .select(`
+      id,
+      name,
+      email,
+      slug,
+      access_token,
+      invite_count
+    `)
+    .eq("id", playerId)
+    .single();
+
+  if (error || !player) {
+    throw new Error("Player not found.");
+  }
+
+  const playerUrl =
+    "https://raiseon-alpha.vercel.app/p/" +
+    player.slug +
+    "?token=" +
+    player.access_token;
+
+const emailResult = await resend.emails.send({
+  from: "onboarding@resend.dev",
+  to: player.email,
+  subject: "You're Invited to Participate in a Fundraiser",
+  html: `...`,
+});
+
+console.log("EMAIL RESULT:", emailResult);
+
+  await supabase
+    .from("players")
+    .update({
+      invite_sent_at: new Date().toISOString(),
+      invite_count: (player.invite_count ?? 0) + 1,
+    })
+    .eq("id", player.id);
+
+  return { success: true };
 }

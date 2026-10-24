@@ -2,7 +2,12 @@
 import { useRouter } from "next/navigation";
 
 import { use, useEffect, useState } from "react";
-import { addPlayer, getPlayers } from "./actions";
+import {
+  addPlayer,
+  getPlayers,
+  sendPlayerInvite,
+} from "./actions";
+
 
 type Props = {
   params: Promise<{
@@ -34,34 +39,58 @@ const router = useRouter();
 
   loadPlayers();
 }, [campaignId]);
+async function handleSubmit(
+  e: React.FormEvent<HTMLFormElement>
+) {
+  e.preventDefault();
 
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
-    e.preventDefault();
+  console.log("Campaign ID:", campaignId);
 
-    console.log("Campaign ID:", campaignId);
+  try {
+    await addPlayer({
+      campaignId,
+      name,
+      email,
+    });
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Unable to add player.";
 
-try {
-await addPlayer({
-campaignId,
-name,
-email,
-});
-
-} catch (error) {
-const message = error instanceof Error ? error.message : "Unable to add player.";
-alert(message);
-console.error(error);
-return;
-}
-const updatedPlayers = await getPlayers(campaignId);
-setPlayers(updatedPlayers);
-    alert("Player added!");
-
-    setName("");
-    setEmail("");
+    alert(message);
+    console.error(error);
+    return;
   }
+
+  const updatedPlayers = await getPlayers(campaignId);
+  setPlayers(updatedPlayers);
+
+  alert("Player added!");
+
+  setName("");
+  setEmail("");
+}
+
+async function handleSendInvite(playerId: string) {
+  try {
+    await sendPlayerInvite(playerId);
+
+    const updatedPlayers = await getPlayers(campaignId);
+    setPlayers(updatedPlayers);
+
+    alert("Invitation sent!");
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Unable to send invite.";
+
+    alert(message);
+    console.error(error);
+  }
+}
+  
   return (
     <main className="mx-auto max-w-2xl p-10">
     <button
@@ -129,13 +158,29 @@ setPlayers(updatedPlayers);
   )}
 </div>
 
+<div className="mt-3 flex gap-2">
+  {!player.onboarding_complete && (
+    <button
+      type="button"
+      onClick={() => handleSendInvite(player.id)}
+      className="rounded bg-green-600 px-3 py-2 text-sm text-white"
+    >
+      {player.invite_sent_at
+        ? "Resend Invite"
+        : "Send Invite"}
+    </button>
+  )}
+
   <button
     type="button"
-    onClick={() => router.push(`/dashboard/players/${player.id}`)}
-    className="mt-3 rounded bg-blue-600 px-3 py-2 text-sm text-white"
+    onClick={() =>
+      router.push(`/dashboard/players/${player.id}`)
+    }
+    className="rounded bg-blue-600 px-3 py-2 text-sm text-white"
   >
     View Player Dashboard
   </button>
+</div>
 </div>
       ))}
       </div>
