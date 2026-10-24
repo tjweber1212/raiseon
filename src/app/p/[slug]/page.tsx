@@ -43,7 +43,12 @@ if (!player.phone) {
 const digits = rawPhone.replace(/\D/g, "");
 const phone = digits.length === 10 ? "+1" + digits : "+" + digits;
 
-  const dashboardUrl = "http://localhost:3000/p/" + player.slug + "?token=" + encodeURIComponent(accessToken!);
+  const dashboardUrl =
+  "https://raiseon-alpha.vercel.app/p/" +
+  player.slug +
+  "?token=" +
+  encodeURIComponent(accessToken!);
+
   await savePhoneNumber(player.id, phone, dashboardUrl);
 
   const { redirect } = await import("next/navigation");

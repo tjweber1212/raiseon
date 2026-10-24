@@ -94,14 +94,54 @@ export async function sendPlayerInvite(playerId: string) {
     "?token=" +
     player.access_token;
 
-const emailResult = await resend.emails.send({
-  from: "onboarding@resend.dev",
-  to: player.email,
-  subject: "You're Invited to Participate in a Fundraiser",
-  html: `...`,
-});
+  const emailResult = await resend.emails.send({
+    from: "onboarding@resend.dev",
+    to: player.email,
+    subject: "You're Invited to Participate in a Fundraiser",
+    html: `
+      <h2>Welcome to RaiseOn!</h2>
 
-console.log("EMAIL RESULT:", emailResult);
+      <p>Hi ${player.name}'s Family,</p>
+
+      <p>
+        You've been invited to participate in a fundraiser.
+      </p>
+
+      <p>
+        Click the button below to access your fundraising dashboard:
+      </p>
+
+      <p>
+        <a
+          href="${playerUrl}"
+          style="
+            background:#2563eb;
+            color:white;
+            padding:12px 20px;
+            text-decoration:none;
+            border-radius:6px;
+            display:inline-block;
+          "
+        >
+          Access Fundraising Dashboard
+        </a>
+      </p>
+
+      <p>
+        If the button doesn't work, copy and paste this link into your browser:
+      </p>
+
+      <p>
+        ${playerUrl}
+      </p>
+
+      <p>
+        Thank you for participating in the fundraiser!
+      </p>
+    `,
+  });
+
+  console.log("EMAIL RESULT:", emailResult);
 
   await supabase
     .from("players")
@@ -111,5 +151,8 @@ console.log("EMAIL RESULT:", emailResult);
     })
     .eq("id", player.id);
 
-  return { success: true };
+  return {
+    success: true,
+    emailResult,
+  };
 }

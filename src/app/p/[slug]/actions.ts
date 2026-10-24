@@ -1,6 +1,5 @@
 "use server";
 
-import twilio from "twilio";
 import { supabaseServer } from "@/lib/supabase-server";
 
 export async function savePhoneNumber(
@@ -12,6 +11,7 @@ export async function savePhoneNumber(
     .from("players")
     .update({
       phone,
+      onboarding_complete: true,
     })
     .eq("id", playerId);
 
@@ -19,21 +19,7 @@ export async function savePhoneNumber(
     throw new Error(error.message);
   }
 
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
-
-  if (!accountSid || !authToken || !twilioPhoneNumber) {
-    throw new Error("Twilio configuration is missing.");
-  }
-
-  const client = twilio(accountSid, authToken);
-
-  await client.messages.create({
-    body:
-      "Welcome to your fundraiser! Save this link to access your fundraising dashboard anytime: " +
-      dashboardUrl,
-    from: twilioPhoneNumber,
-    to: phone,
-  });
+  return {
+    success: true,
+  };
 }
