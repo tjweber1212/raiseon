@@ -3,6 +3,7 @@ import Link from "next/link";
 import { savePhoneNumber } from "./actions";
 import { createElement } from "react";
 import { supabaseServer } from "@/lib/supabase-server";
+import { uploadPlayerPhoto } from "./photo-actions";
 
 export default async function PlayerPage({
   params,
@@ -153,7 +154,21 @@ const phone = digits.length === 10 ? "+1" + digits : "+" + digits;
     </main>
   );
 }
-  
+async function savePhoto(formData: FormData) {
+  "use server";
+
+  await uploadPlayerPhoto(player.id, formData);
+
+  const { redirect } = await import("next/navigation");
+
+  redirect(
+    "/p/" +
+      player.slug +
+      "?token=" +
+      encodeURIComponent(accessToken!)
+  );
+}
+
   const { data: campaign } = await supabaseServer
     .from("campaigns")
     .select("name")
@@ -228,6 +243,7 @@ className:
 );
   return (
     <main className="mx-auto max-w-4xl p-6">
+      
       <h1 className="text-4xl font-bold">
         {player.name}
       </h1>
@@ -235,6 +251,42 @@ className:
       <p className="mt-2 text-gray-600">
         {campaign?.name}
       </p>
+
+
+<section className="mt-6 rounded-xl border bg-white p-6 shadow-sm">
+  <h2 className="mb-4 text-lg font-semibold">
+    Player Photo
+  </h2>
+
+  {player.photo_url ? (
+    <img
+      src={player.photo_url}
+      alt={player.name}
+      className="h-48 w-48 rounded-lg object-cover"
+    />
+  ) : (
+    <p className="mb-4 text-gray-600">
+      No photo uploaded yet.
+    </p>
+  )}
+
+  <form action={savePhoto} className="mt-4">
+    <input
+      type="file"
+      name="photo"
+      accept="image/*"
+      className="mb-4 block"
+      required
+    />
+
+    <button
+      type="submit"
+      className="rounded-lg bg-blue-600 px-4 py-2 text-white"
+    >
+      Upload Photo
+    </button>
+  </form>
+</section>  
 
 <section className="mt-8 rounded-xl border bg-white p-6 shadow-sm">
 <div className="flex items-center justify-between gap-4">
