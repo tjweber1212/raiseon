@@ -9,7 +9,7 @@ const supabase = await createClient();
 const { data: claimsData, error: claimsError } =
   await supabase.auth.getClaims();
 
-const userId = claimsData.claims.sub;
+const userId = claimsData!.claims!.sub;
 
 const { data: organization } = await supabase
   .from("organizations")
