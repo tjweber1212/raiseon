@@ -13,6 +13,7 @@ type Contact = {
   name: string;
   phone: string;
   invited_at: string | null;
+  invite_token: string;
 };
 
 export default function ViewContactsPage() {
@@ -46,33 +47,26 @@ useEffect(() => {
   loadContacts();
 }, [slug, accessToken]);
 
-async function handleInvite(contactId: string) {
-  try {
-const { invitedAt } = await markContactInvited({
-  slug,
-  accessToken,
-  contactId,
-});
+async function handleInvite(contact: Contact) {
+  const inviteUrl =
+    `${window.location.origin}/p/${slug}?invite=${contact.invite_token}`;
 
-    setContacts((currentContacts) =>
-      currentContacts.map((contact) =>
-        contact.id === contactId
-          ? { ...contact, invited_at: invitedAt }
-          : contact
-      )
-    );
+  const message = encodeURIComponent(
+    `Hi ${contact.name},
 
-    alert("Invitation marked as sent!");
-  } catch (error) {
-    const message =
-      error instanceof Error
-        ? error.message
-        : "Unable to update contact.";
+I'm participating in a fundraiser.
 
-    alert(message);
-    console.error(error);
-  }
+Please support me here:
+
+${inviteUrl}
+
+Thank you!`
+  );
+
+  window.location.href = `sms:${contact.phone}?body=${message}`;
 }
+
+
 
   if (loading) {
     return (
@@ -142,7 +136,7 @@ const { invitedAt } = await markContactInvited({
                 </div>
               ) : (
                 <button
-                  onClick={() => handleInvite(contact.id)}
+                  onClick={() => handleInvite(contact)}
                   className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white"
                 >
                   Invite
