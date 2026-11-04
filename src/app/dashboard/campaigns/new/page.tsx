@@ -65,13 +65,6 @@ async function handleSubmit(
 }
 
 
-    if (error) {
-      alert(error.message);
-      console.error(error);
-      return;
-    }
-
-window.location.href = "/dashboard/campaigns";
   }
 
   return (
