@@ -14,10 +14,16 @@ export default function SignupPage() {
   ) {
     e.preventDefault();
 
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+const { data, error } = await supabase.auth.signUp({
+  email,
+  password,
+  options: {
+    data: {
+      association_name: associationName,
+      full_name: name,
+    },
+  },
+});
 
     if (error) {
       alert(error.message);
