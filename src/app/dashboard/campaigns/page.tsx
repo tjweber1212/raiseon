@@ -6,6 +6,35 @@ import ToggleFundraiserButton from "./ToggleFundraiserButton";
 export default async function CampaignsPage() {
 const supabase = await createClient();
 
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+const { data: profile } = await supabase
+  .from("profiles")
+  .select("*")
+  .eq("id", user!.id)
+  .single();
+
+  if (!profile) {
+  const { data: newOrganization } = await supabase
+    .from("organizations")
+    .insert({
+      name: user?.user_metadata?.association_name,
+      owner_id: user?.id,
+    })
+    .select()
+    .single();
+
+  await supabase.from("profiles").insert({
+    id: user?.id,
+    organization_id: newOrganization.id,
+    name: user?.user_metadata?.full_name,
+    email: user?.email,
+    role: "owner",
+  });
+}
+
 const { data: claimsData, error: claimsError } =
   await supabase.auth.getClaims();
 
