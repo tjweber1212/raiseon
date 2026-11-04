@@ -9,13 +9,20 @@ const supabase = await createClient();
 const { data: claimsData, error: claimsError } =
   await supabase.auth.getClaims();
 
-if (claimsError || !claimsData?.claims) {
-  redirect("/login");
-}
-  const { data: campaigns } = await supabase
-    .from("campaigns")
-    .select("*")
-    .order("created_at", { ascending: false });
+const userId = claimsData.claims.sub;
+
+const { data: organization } = await supabase
+  .from("organizations")
+  .select("*")
+  .eq("owner_id", userId)
+  .single();
+
+const { data: campaigns } = await supabase
+  .from("campaigns")
+  .select("*")
+  .eq("organization_id", organization?.id)
+  .order("created_at", { ascending: false });
+
 
   return (
     <main className="min-h-screen bg-gray-50 p-10">
