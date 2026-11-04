@@ -19,7 +19,7 @@ export async function getContacts(
 
   const { data: contacts, error: contactsError } = await supabaseServer
     .from("contacts")
-    .select("id, name, phone, invited_at")
+    .select("id, name, phone, invited_at, invite_token")
     .eq("player_id", player.id);
 
   if (contactsError) {
