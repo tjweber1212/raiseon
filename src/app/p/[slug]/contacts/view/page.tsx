@@ -49,7 +49,7 @@ useEffect(() => {
 
 async function handleInvite(contact: Contact) {
   const inviteUrl =
-    `${window.location.origin}/p/${slug}?invite=${contact.invite_token}`;
+    `${window.location.origin}/p/${slug}/shop?invite=${contact.invite_token}`;
 
   const message = encodeURIComponent(
     `Hi ${contact.name},
@@ -61,6 +61,20 @@ Please support me here:
 ${inviteUrl}
 
 Thank you!`
+  );
+
+  const { invitedAt } = await markContactInvited({
+    slug,
+    accessToken,
+    contactId: contact.id,
+  });
+
+  setContacts((currentContacts) =>
+    currentContacts.map((currentContact) =>
+      currentContact.id === contact.id
+        ? { ...currentContact, invited_at: invitedAt }
+        : currentContact
+    )
   );
 
   window.location.href = `sms:${contact.phone}?body=${message}`;
@@ -124,24 +138,26 @@ Thank you!`
                 <p className="text-gray-600">{contact.phone}</p>
               </div>
 
-              {contact.invited_at ? (
-                <div className="text-right">
-                  <p className="font-semibold text-green-600">
-                    ✓ Invited
-                  </p>
+<div className="text-right">
+  {contact.invited_at && (
+    <>
+      <p className="font-semibold text-green-600">
+        ✓ Invited
+      </p>
 
-                  <p className="text-sm text-gray-500">
-                    {new Date(contact.invited_at).toLocaleString()}
-                  </p>
-                </div>
-              ) : (
-                <button
-                  onClick={() => handleInvite(contact)}
-                  className="rounded-lg bg-green-600 px-4 py-2 font-semibold text-white"
-                >
-                  Invite
-                </button>
-              )}
+      <p className="text-sm text-gray-500">
+        {new Date(contact.invited_at).toLocaleString()}
+      </p>
+    </>
+  )}
+
+  <button
+    onClick={() => handleInvite(contact)}
+    className="mt-2 rounded-lg bg-green-600 px-4 py-2 font-semibold text-white"
+  >
+    {contact.invited_at ? "Invite Again" : "Invite"}
+  </button>
+</div>
             </div>
           ))}
         </div>

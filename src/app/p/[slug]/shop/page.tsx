@@ -12,11 +12,11 @@ export default async function ShopPage({
   const { slug } = await params;
   const { invite } = await searchParams;
 
-  const { data: player, error: playerError } = await supabaseServer
-    .from("players")
-    .select("id, name, campaign_id")
-    .eq("slug", slug)
-    .single();
+const { data: player, error: playerError } = await supabaseServer
+  .from("players")
+  .select("id, name, campaign_id, photo_url")
+  .eq("slug", slug)
+  .single();
 
   if (playerError || !player) {
     return (
@@ -48,10 +48,17 @@ contact = data;
   <p className="text-sm font-semibold uppercase tracking-wide text-blue-600">
     Fundraiser Shop
   </p>
-
-  <h1 className="mt-2 text-3xl font-bold">
-    Support {player.name}
-  </h1>
+{player.photo_url && (
+  <img
+    src={player.photo_url}
+    alt={player.name}
+    className="mx-auto mt-4 h-40 w-40 rounded-full object-cover border-4 border-white shadow"
+  />
+)}
+``
+<h1 className="mt-4 text-3xl font-bold">
+  Support {player.name}'s Fundraiser
+</h1>
 
   {contact && (
     <p className="mt-3 text-gray-700">

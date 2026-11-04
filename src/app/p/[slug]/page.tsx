@@ -1,6 +1,5 @@
 
 import Link from "next/link";
-import { savePhoneNumber } from "./actions";
 import { createElement } from "react";
 import { supabaseServer } from "@/lib/supabase-server";
 import { uploadPlayerPhoto } from "./photo-actions";
@@ -35,125 +34,9 @@ const { data: player, error } = await supabaseServer
     );
   }
 
-if (!player.phone) {
 
-  async function savePhone(formData: FormData) {
-  "use server";
-
-  const rawPhone = formData.get("phone")?.toString() ?? "";
-const digits = rawPhone.replace(/\D/g, "");
-const phone = digits.length === 10 ? "+1" + digits : "+" + digits;
-
-  const dashboardUrl =
-  "https://raiseon-alpha.vercel.app/p/" +
-  player.slug +
-  "?token=" +
-  encodeURIComponent(accessToken!);
-
-  await savePhoneNumber(player.id, phone, dashboardUrl);
-
-  const { redirect } = await import("next/navigation");
-
-  redirect(
-    "/p/" +
-      player.slug +
-      "?token=" +
-      encodeURIComponent(accessToken!)
-  );
-} 
     
-  return (
-    <main className="mx-auto max-w-2xl p-6">
-      <h1 className="text-3xl font-bold">
-        Welcome to Your Fundraiser
-      </h1>
 
-      <div className="mt-6 rounded-xl border bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold">
-          Helping Younger Players Participate
-        </h2>
-
-        <p className="mt-4 text-gray-700">
-          Not all players have their own mobile phone number.
-          If your player doesn't, please enter a parent or
-          guardian's phone number.
-        </p>
-
-        <p className="mt-4 text-gray-700">
-          We’ll use this number to provide access to the player/participant’s fundraising dashboard and send important campaign-related updates.
-        </p>
-
-        <p className="mt-4 text-gray-700">
-          This information is only used in connection with the
-          fundraiser.
-        </p>
-
-<form action={savePhone}>
-  <label
-    htmlFor="phone"
-    className="mb-2 block text-sm font-medium"
-  >
-    Mobile Phone Number
-  </label>
-
-  <input
-    id="phone"
-    name="phone"
-    type="tel"
-    placeholder="(555) 555-5555"
-    className="w-full rounded-lg border p-3"
-  />
-<div className="mt-4">
-  <label className="flex items-start gap-2 text-sm">
-    <input
-      type="checkbox"
-      name="smsConsent"
-      required
-      className="mt-1"
-    />
-
-    <span>
-      I agree to receive text messages related to the
-      player/participant&apos;s fundraising participation, including access
-      to the player/participant&apos;s dashboard and campaign updates.
-    </span>
-  </label>
-
-<p className="mt-2 text-xs text-gray-500">
-  Message frequency varies. Msg &amp; data rates may apply. Reply HELP for
-  help or STOP to opt out. View our{" "}
-  {createElement(
-    "a",
-    {
-      href: "/privacy",
-      className: "underline text-blue-600",
-    },
-    "Privacy Policy"
-  )}{" "}
-  and{" "}
-  {createElement(
-    "a",
-    {
-      href: "/terms",
-      className: "underline text-blue-600",
-    },
-    "Terms of Service"
-  )}.
-</p>
-</div>
-  <button
-    type="submit"
-    className="mt-4 rounded-lg bg-blue-600 px-6 py-3 text-white"
-  >
-    
-    Continue
-  </button>
-</form>
-
-      </div>
-    </main>
-  );
-}
 async function savePhoto(formData: FormData) {
   "use server";
 
