@@ -16,17 +16,53 @@ const [endDate, setEndDate] = useState(today);
   ) {
     e.preventDefault();
 
-const { data, error } = await supabase
-  .from("campaigns")
-  .insert([
-    {
-      name,
-      description,
-      start_date: startDate,
-      end_date: endDate,
-      active: true,
-    },
-  ]);
+async function handleSubmit(
+  e: React.FormEvent<HTMLFormElement>
+) {
+  e.preventDefault();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    alert("Not signed in");
+    return;
+  }
+
+  const { data: profile, error: profileError } =
+    await supabase
+      .from("profiles")
+      .select("organization_id")
+      .eq("id", user.id)
+      .single();
+
+  if (profileError || !profile) {
+    alert("Profile not found");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("campaigns")
+    .insert([
+      {
+        name,
+        description,
+        start_date: startDate,
+        end_date: endDate,
+        active: true,
+        organization_id: profile.organization_id,
+      },
+    ]);
+
+  if (error) {
+    alert(error.message);
+    console.error(error);
+    return;
+  }
+
+  window.location.href = "/dashboard/campaigns";
+}
 
 
     if (error) {
