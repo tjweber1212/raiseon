@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@/lib/supabase/client";
+
 
 export default function NewCampaignPage() {
+  const supabase = createClient();
   const [name, setName] = useState("");
 const today = new Date().toISOString().split("T")[0];
 
@@ -11,24 +13,26 @@ const [startDate, setStartDate] = useState(today);
 const [endDate, setEndDate] = useState(today);
   const [description, setDescription] = useState("");
 
-  async function handleSubmit(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
-    e.preventDefault();
+
 
 async function handleSubmit(
   e: React.FormEvent<HTMLFormElement>
 ) {
   e.preventDefault();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (!user) {
-    alert("Not signed in");
-    return;
-  }
+
+const {
+  data: { user },
+} = await supabase.auth.getUser();
+
+
+
+if (!user) {
+
+
+  return;
+}
 
   const { data: profile, error: profileError } =
     await supabase
@@ -61,11 +65,14 @@ async function handleSubmit(
     return;
   }
 
+  
+
+
   window.location.href = "/dashboard/campaigns";
 }
 
 
-  }
+  
 
   return (
     <main className="mx-auto max-w-2xl p-10">

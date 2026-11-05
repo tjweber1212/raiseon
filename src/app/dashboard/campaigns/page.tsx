@@ -46,6 +46,8 @@ const { data: organization } = await supabase
   .eq("owner_id", userId)
   .single();
 
+  console.log("ORGANIZATION", organization);
+
 const { data: campaigns } = await supabase
   .from("campaigns")
   .select("*")
