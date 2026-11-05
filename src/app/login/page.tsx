@@ -33,7 +33,7 @@ async function handleSignIn(
       return;
     }
 
-    router.push("/dashboard/campaigns");
+    router.push("/associations");
     router.refresh();
   } catch (error) {
     console.error(error);

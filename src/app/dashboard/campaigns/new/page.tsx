@@ -1,10 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 
-export default function NewCampaignPage() {
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export default function NewCampaignPage({
+  params,
+}: Props) {
+  const [organizationId, setOrganizationId] =
+  useState("");
+useEffect(() => {
+  async function loadParams() {
+    const { id } = await params;
+    setOrganizationId(id);
+  }
+
+  loadParams();
+}, [params]);
   const supabase = createClient();
   const [name, setName] = useState("");
 const today = new Date().toISOString().split("T")[0];
@@ -34,17 +52,7 @@ if (!user) {
   return;
 }
 
-  const { data: profile, error: profileError } =
-    await supabase
-      .from("profiles")
-      .select("organization_id")
-      .eq("id", user.id)
-      .single();
-
-  if (profileError || !profile) {
-    alert("Profile not found");
-    return;
-  }
+  
 
   const { error } = await supabase
     .from("campaigns")
@@ -55,7 +63,7 @@ if (!user) {
         start_date: startDate,
         end_date: endDate,
         active: true,
-        organization_id: profile.organization_id,
+        organization_id: organizationId,
       },
     ]);
 
@@ -68,7 +76,8 @@ if (!user) {
   
 
 
-  window.location.href = "/dashboard/campaigns";
+ window.location.href =
+  `/associations/${organizationId}`;
 }
 
 

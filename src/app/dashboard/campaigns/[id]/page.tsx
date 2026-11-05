@@ -146,10 +146,10 @@ async function toggleStatus() {
     <main className="min-h-screen bg-gray-50 p-10">
       <div className="mx-auto max-w-6xl">
   <Link
-  href="/dashboard/campaigns"
+  href={`/associations/${campaign.organization_id}`}
   className="mb-6 inline-block text-sm font-semibold text-blue-600 hover:underline"
 >
-  ← Back to Fundraisers
+  ← Back to Association
 </Link>
 
 <div className="flex items-start justify-between">
