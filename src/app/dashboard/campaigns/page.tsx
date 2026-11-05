@@ -14,7 +14,7 @@ const { data: profile } = await supabase
   .from("profiles")
   .select("*")
   .eq("id", user!.id)
-  .single();
+  .maybeSingle();
 
   if (!profile) {
   const { data: newOrganization } = await supabase
@@ -46,7 +46,6 @@ const { data: organization } = await supabase
   .eq("owner_id", userId)
   .single();
 
-  console.log("ORGANIZATION", organization);
 
 const { data: campaigns } = await supabase
   .from("campaigns")
