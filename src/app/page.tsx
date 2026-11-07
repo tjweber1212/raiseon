@@ -1,17 +1,24 @@
+import Link from "next/link";
 export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <nav className="flex items-center justify-between border-b px-8 py-4">
         <h1 className="text-2xl font-bold">FundraiserPro</h1>
 
-        <div className="flex gap-4">
-          <button className="rounded-lg px-4 py-2 hover:bg-gray-100">
-            Login
-          </button>
+<div className="flex gap-4">
+  <Link
+    href="/login"
+    className="rounded-lg px-4 py-2 hover:bg-gray-100"
+  >
+    Login
+  </Link>
 
-          <button className="rounded-lg bg-black px-4 py-2 text-white">
-            Get Started
-          </button>
+<Link
+  href="/signup"
+  className="rounded-lg bg-black px-4 py-2 text-white"
+>
+  Get Started
+</Link>
         </div>
       </nav>
 

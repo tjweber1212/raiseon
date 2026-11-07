@@ -46,15 +46,18 @@ export default async function AssociationsPage() {
             </Link>
           ))}
 
-          <div className="rounded-xl border-2 border-dashed bg-white p-6">
-            <h2 className="text-xl font-semibold">
-              + Add Association
-            </h2>
+<Link
+  href="/associations/new"
+  className="rounded-xl border-2 border-dashed bg-white p-6 hover:border-blue-300"
+>
+  <h2 className="text-xl font-semibold">
+    + Add Association
+  </h2>
 
-            <p className="mt-2 text-sm text-gray-500">
-              Create another association workspace.
-            </p>
-          </div>
+  <p className="mt-2 text-sm text-gray-500">
+    Create another association workspace.
+  </p>
+</Link>
         </div>
       </div>
     </main>

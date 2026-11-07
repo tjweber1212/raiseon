@@ -29,6 +29,12 @@ export default async function AssociationPage({
   return (
     <main className="min-h-screen bg-gray-50 p-10">
       <div className="mx-auto max-w-6xl">
+        <Link
+  href="/associations"
+  className="mb-6 inline-block text-sm text-blue-600 hover:underline"
+>
+  ← Back to My Associations
+</Link>
         <h1 className="mb-3 text-4xl font-bold">
           {organization?.name}
         </h1>
