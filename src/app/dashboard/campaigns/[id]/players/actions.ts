@@ -109,7 +109,7 @@ console.log(
 );
 
   const emailResult = await resend.emails.send({
-    from: "RaiseOn <hello@useraiseon.com>",
+    from: "RaiseOn <onboarding@useraiseon.com>",
     to: player.email,
     subject: "You're Invited to Participate in a Fundraiser",
     html: `
