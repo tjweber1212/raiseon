@@ -2,6 +2,10 @@
 
 import { Resend } from "resend";
 const resend = new Resend(process.env.RESEND_API_KEY);
+console.log(
+  "RESEND KEY:",
+  process.env.RESEND_API_KEY?.substring(0, 12)
+);
 
 import { createClient } from "@/lib/supabase/server";
 export async function addPlayer({
