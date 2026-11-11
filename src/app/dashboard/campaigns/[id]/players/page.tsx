@@ -6,6 +6,7 @@ import {
   addPlayer,
   getPlayers,
   sendPlayerInvite,
+  inviteAllPlayers,
 } from "./actions";
 
 
@@ -20,6 +21,7 @@ export default function PlayersPage({
 }: Props) {
   const { id: campaignId } = use(params);
 const router = useRouter();
+const [campaignName, setCampaignName] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [players, setPlayers] = useState<{
@@ -90,23 +92,46 @@ async function handleSendInvite(playerId: string) {
     console.error(error);
   }
 }
+async function handleInviteAll() {
+  try {
+    const result =
+      await inviteAllPlayers(campaignId);
+
+    const updatedPlayers =
+      await getPlayers(campaignId);
+
+    setPlayers(updatedPlayers);
+
+    alert(
+      `${result.count} invitations sent successfully!`
+    );
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : "Unable to send invitations.";
+
+    alert(message);
+    console.error(error);
+  }
+}
   
   return (
     <main className="mx-auto max-w-2xl p-10">
-    <button
- type="button"
- onClick={() => router.push("/dashboard/campaigns/" + campaignId)}
- className="mb-6 text-sm font-semibold text-blue-600 hover:underline"
+ <button
+  type="button"
+  onClick={() =>
+    router.push("/dashboard/campaigns/" + campaignId)
+  }
+  className="mb-6 text-sm font-semibold text-blue-600 hover:underline"
 >
- ← Back to Campaign Dashboard
+  ← Back to Fundraiser
 </button>
       <h1 className="mb-6 text-4xl font-bold">
         Players
       </h1>
 
-      <p className="mb-6 text-gray-700">
-        Campaign ID: {campaignId}
-      </p>
+
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
@@ -123,14 +148,39 @@ async function handleSendInvite(playerId: string) {
           className="w-full rounded-lg border p-3"
         />
 
-        <button
-          type="submit"
-          className="rounded-lg bg-black px-6 py-3 text-white"
-        >
-          Add Player
-        </button>
+<div className="flex gap-3">
+  <button
+    type="submit"
+    className="rounded-lg bg-black px-6 py-3 text-white"
+  >
+    Add Player
+  </button>
+
+  <button
+    type="button"
+    onClick={() =>
+      router.push(
+        `/dashboard/campaigns/${campaignId}/players/import`
+      )
+    }
+    className="rounded-lg border px-6 py-3"
+  >
+    Import Roster
+  </button>
+</div>
       </form>
-      <h2 className="mt-10 text-2xl font-bold">Current Players</h2>
+      <h2 className="mt-10 text-2xl font-bold">
+  Current Players ({players.length})
+</h2>
+<div className="mt-4 mb-6">
+  <button
+    type="button"
+    onClick={handleInviteAll}
+    className="rounded-lg bg-green-600 px-4 py-2 text-white"
+  >
+    Invite All Players
+  </button>
+</div>
      <div className="mt-4 space-y-3">
       {players.map((player) => (   
  <div key={player.id} className="rounded-lg border bg-white p-4">
@@ -171,15 +221,6 @@ async function handleSendInvite(playerId: string) {
     </button>
   )}
 
-  <button
-    type="button"
-    onClick={() =>
-      router.push(`/dashboard/players/${player.id}`)
-    }
-    className="rounded bg-blue-600 px-3 py-2 text-sm text-white"
-  >
-    View Player Dashboard
-  </button>
 </div>
 </div>
       ))}
