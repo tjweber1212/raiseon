@@ -23,7 +23,7 @@ async function handleSignup(
     password,
     options: {
       emailRedirectTo:
-        "https://raiseon-alpha.vercel.app/associations/new",
+        "https://raiseon-alpha.vercel.app/login",
 
       data: {
         full_name: name,
