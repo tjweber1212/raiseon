@@ -95,7 +95,7 @@ export async function sendPlayerInvite(playerId: string) {
     player.access_token;
 
   const emailResult = await resend.emails.send({
-    from: "onboarding@resend.dev",
+    from: "RaiseOn <hello@useraiseon.com>",
     to: player.email,
     subject: "You're Invited to Participate in a Fundraiser",
     html: `
