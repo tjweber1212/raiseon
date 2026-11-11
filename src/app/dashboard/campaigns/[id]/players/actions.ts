@@ -1,10 +1,15 @@
 "use server";
 
 import { Resend } from "resend";
+console.log(
+  "RESEND KEY PREFIX:",
+  process.env.RESEND_API_KEY?.substring(0, 12)
+);
+
 const resend = new Resend(process.env.RESEND_API_KEY);
 console.log(
   "RESEND KEY:",
-  process.env.RESEND_API_KEY?.substring(0, 12)
+  process.env.RESEND_API_KEY?.substring(0, 10)
 );
 
 import { createClient } from "@/lib/supabase/server";
