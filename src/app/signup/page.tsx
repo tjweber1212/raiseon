@@ -33,9 +33,7 @@ const { data, error } = await supabase.auth.signUp({
       return;
     }
 
-    alert("Account created! Check your email.");
-
-    console.log(data);
+window.location.href = "/check-email";
   }
 
   return (
