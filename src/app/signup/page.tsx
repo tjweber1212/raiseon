@@ -4,37 +4,58 @@ import { useState } from "react";
 import { supabase } from "@/lib/supabase";
 
 export default function SignupPage() {
-  const [associationName, setAssociationName] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+const [successMessage, setSuccessMessage] = useState("");
 
-  async function handleSignup(
-    e: React.FormEvent<HTMLFormElement>
-  ) {
-    e.preventDefault();
+async function handleSignup(
+  e: React.FormEvent<HTMLFormElement>
+) {
+  e.preventDefault();
 
-const { data, error } = await supabase.auth.signUp({
-  email,
-  password,
-  options: {
-    emailRedirectTo:
-      "https://raiseon-alpha.vercel.app/associations/new",
+  setErrorMessage("");
+  setSuccessMessage("");
 
-    data: {
-      association_name: associationName,
-      full_name: name,
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo:
+        "https://raiseon-alpha.vercel.app/associations/new",
+
+      data: {
+        full_name: name,
+      },
     },
-  },
-});
+  });
 
-    if (error) {
-      alert(error.message);
-      return;
-    }
-
-window.location.href = "/check-email";
+  if (error) {
+    setErrorMessage(error.message);
+    return;
   }
+
+  if (
+    data.user &&
+    data.user.identities &&
+    data.user.identities.length === 0
+  ) {
+    setErrorMessage(
+      "An account with this email already exists. Please log in instead."
+    );
+    return;
+  }
+
+  setSuccessMessage(
+    "Account created! Check your email and click the verification link to continue."
+  );
+
+  setName("");
+  setEmail("");
+  setPassword("");
+}
+
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-gray-50">
@@ -44,19 +65,21 @@ window.location.href = "/check-email";
         </h1>
 
         <p className="mb-6 text-gray-500">
-          Start your organization's fundraiser today.
+          Create your RaisOn account to get started.
         </p>
+{errorMessage && (
+  <div className="mb-4 rounded-lg bg-red-50 p-3 text-red-700">
+    {errorMessage}
+  </div>
+)}
 
+{successMessage && (
+  <div className="mb-4 rounded-lg bg-green-50 p-3 text-green-700">
+    {successMessage}
+  </div>
+)}
         <form onSubmit={handleSignup} className="space-y-4">
-          <input
-            value={associationName}
-            onChange={(e) =>
-              setAssociationName(e.target.value)
-            }
-            type="text"
-            placeholder="Association Name"
-            className="w-full rounded-lg border p-3"
-          />
+
 
           <input
             value={name}
