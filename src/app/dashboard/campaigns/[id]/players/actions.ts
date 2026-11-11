@@ -1,10 +1,7 @@
 "use server";
 
 import { Resend } from "resend";
-throw new Error(
-  "RESEND KEY PREFIX: " +
-  process.env.RESEND_API_KEY?.substring(0, 12)
-);
+
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -74,7 +71,7 @@ const { data: players, error } = await supabase
 return players ?? [];
 }
 export async function sendPlayerInvite(playerId: string) {
-  throw new Error("TESTING PLAYER INVITE");
+
 
   const supabase = await createClient();
 
@@ -91,15 +88,16 @@ export async function sendPlayerInvite(playerId: string) {
     .eq("id", playerId)
     .single();
 
-  if (error || !player) {
-    throw new Error("Player not found.");
-  }
+if (error || !player) {
+  throw new Error("Player not found.");
+}
 
+const safePlayer = player;
   const playerUrl =
     "https://raiseon-alpha.vercel.app/p/" +
-    player.slug +
+    safePlayer.slug +
     "?token=" +
-    player.access_token;
+    safePlayer.access_token;
 
 console.log(
   "SENDING FROM:",
@@ -108,12 +106,12 @@ console.log(
 
   const emailResult = await resend.emails.send({
     from: "RaiseOn <onboarding@useraiseon.com>",
-    to: player.email,
+    to: safePlayer.email,
     subject: "You're Invited to Participate in a Fundraiser",
     html: `
       <h2>Welcome to RaiseOn!</h2>
 
-      <p>Hi ${player.name}'s Family,</p>
+      <p>Hi ${safePlayer.name}'s Family,</p>
 
       <p>
         You've been invited to participate in a fundraiser.
@@ -159,9 +157,9 @@ console.log(
     .from("players")
     .update({
       invite_sent_at: new Date().toISOString(),
-      invite_count: (player.invite_count ?? 0) + 1,
+      invite_count: (safePlayer.invite_count ?? 0) + 1,
     })
-    .eq("id", player.id);
+    .eq("id", safePlayer.id);
 
   return {
     success: true,
