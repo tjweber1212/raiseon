@@ -44,11 +44,23 @@ useEffect(() => {
     e.preventDefault();
 
 try {
- await addProduct({
- campaignId,
- name,
- price: Number(price),
- });
+
+const numericPrice = Number(
+  price.replace(/[$,]/g, "")
+);
+
+if (isNaN(numericPrice)) {
+  alert(
+    "Please enter a valid price. Example: 15.00"
+  );
+  return;
+}
+
+await addProduct({
+  campaignId,
+  name,
+price: numericPrice,
+});
 } catch (error) {
  const message = error instanceof Error ? error.message : "Unable to add product.";
  alert(message);
@@ -87,12 +99,13 @@ setProducts(updatedProducts);
           className="w-full rounded-lg border p-3"
         />
 
-        <input
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-          placeholder="Price"
-          className="w-full rounded-lg border p-3"
-        />
+<input
+  value={price}
+  onChange={(e) => setPrice(e.target.value)}
+  placeholder="15.00"
+  inputMode="decimal"
+  className="w-full rounded-lg border p-3"
+/>
 
         <button
           type="submit"
