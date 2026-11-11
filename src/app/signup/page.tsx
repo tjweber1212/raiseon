@@ -18,6 +18,9 @@ const { data, error } = await supabase.auth.signUp({
   email,
   password,
   options: {
+    emailRedirectTo:
+      "https://raiseon-alpha.vercel.app/associations/new",
+
     data: {
       association_name: associationName,
       full_name: name,
