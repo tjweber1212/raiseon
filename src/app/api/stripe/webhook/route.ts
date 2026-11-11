@@ -23,7 +23,9 @@ export async function POST(request: Request) {
 
   if (stripeEvent.type === "checkout.session.completed") {
     const session = stripeEvent.data.object;
-    const orderId = session.client_reference_id;
+const orderId = session.client_reference_id;
+
+console.log("ORDER ID FROM STRIPE:", orderId);
 
     if (orderId) {
   const { data: updatedOrders, error: updateError } = await supabaseServer
@@ -31,6 +33,7 @@ export async function POST(request: Request) {
   .update({ payment_status: "paid" })
   .eq("id", orderId)
   .select("id, payment_status");
+console.log("UPDATED ORDERS:", updatedOrders);
 
 if (updateError) {
   console.error("Order payment update failed:", updateError);
