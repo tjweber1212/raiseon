@@ -22,11 +22,11 @@ export default async function AssociationsPage() {
     <main className="min-h-screen bg-gray-50 p-10">
       <div className="mx-auto max-w-5xl">
         <h1 className="mb-2 text-4xl font-bold">
-          My Associations
+          My Organizations
         </h1>
 
         <p className="mb-8 text-gray-600">
-          Select an association to manage fundraising activities.
+          Select an organization to manage fundraising activities.
         </p>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -41,7 +41,7 @@ export default async function AssociationsPage() {
               </h2>
 
               <p className="mt-2 text-sm text-gray-500">
-                Open Association
+                Open Organization
               </p>
             </Link>
           ))}
@@ -51,11 +51,11 @@ export default async function AssociationsPage() {
   className="rounded-xl border-2 border-dashed bg-white p-6 hover:border-blue-300"
 >
   <h2 className="text-xl font-semibold">
-    + Add Association
+    + Add Organization
   </h2>
 
   <p className="mt-2 text-sm text-gray-500">
-    Create another association workspace.
+    Create another organization workspace.
   </p>
 </Link>
         </div>

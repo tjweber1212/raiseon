@@ -43,7 +43,7 @@ const { data, error } = await supabase.auth.signUp({
         </h1>
 
         <p className="mb-6 text-gray-500">
-          Start your association's fundraiser today.
+          Start your organization's fundraiser today.
         </p>
 
         <form onSubmit={handleSignup} className="space-y-4">

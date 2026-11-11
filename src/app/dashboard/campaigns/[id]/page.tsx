@@ -149,7 +149,7 @@ async function toggleStatus() {
   href={`/associations/${campaign.organization_id}`}
   className="mb-6 inline-block text-sm font-semibold text-blue-600 hover:underline"
 >
-  ← Back to Association
+  ← Back to Organization
 </Link>
 
 <div className="flex items-start justify-between">

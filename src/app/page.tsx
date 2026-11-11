@@ -3,7 +3,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-white">
       <nav className="flex items-center justify-between border-b px-8 py-4">
-        <h1 className="text-2xl font-bold">FundraiserPro</h1>
+        <h1 className="text-2xl font-bold">RaiseOn</h1>
 
 <div className="flex gap-4">
   <Link
@@ -24,23 +24,29 @@ export default function Home() {
 
       <section className="mx-auto max-w-6xl px-6 py-24 text-center">
         <h1 className="text-6xl font-bold tracking-tight">
-          Fundraising Made Simple
+          Raise More. Do Less.
         </h1>
 
         <p className="mx-auto mt-6 max-w-2xl text-xl text-gray-600">
-          Help sports teams and associations raise more money with
+          A modern fundraising platform that helps organizations raise more money with
           personalized text message campaigns, online ordering, and
           real-time sales tracking.
         </p>
 
         <div className="mt-10 flex justify-center gap-4">
-          <button className="rounded-lg bg-black px-8 py-4 text-white">
-            Start Fundraising
-          </button>
+<Link
+  href="/signup"
+  className="rounded-lg bg-black px-8 py-4 text-white"
+>
+  Start Fundraising
+</Link>
 
-          <button className="rounded-lg border px-8 py-4">
-            See Demo
-          </button>
+<Link
+  href="/login"
+  className="rounded-lg border px-8 py-4"
+>
+  Login
+</Link>
         </div>
       </section>
 
@@ -49,30 +55,30 @@ export default function Home() {
           <div className="rounded-xl border p-6">
             <div className="mb-3 text-3xl">📱</div>
             <h3 className="text-xl font-semibold">
-              Players Add Contacts
+              Launch Campaigns
             </h3>
             <p className="mt-2 text-gray-600">
-              Players quickly enter supporter phone numbers.
+              Create and manage fundraisers from one centralized platform.
             </p>
           </div>
 
           <div className="rounded-xl border p-6">
             <div className="mb-3 text-3xl">🍕</div>
             <h3 className="text-xl font-semibold">
-              Customers Order Online
+              Activate Supporters
             </h3>
             <p className="mt-2 text-gray-600">
-              Supporters receive a link and order in seconds.
+              Import rosters, invite supporters, and get everyone engaged quickly.
             </p>
           </div>
 
           <div className="rounded-xl border p-6">
             <div className="mb-3 text-3xl">🏆</div>
             <h3 className="text-xl font-semibold">
-              Track Sales
+              Track Results
             </h3>
             <p className="mt-2 text-gray-600">
-              Teams see live leaderboards and fundraising totals.
+              Monitor participation, fundraising progress, and results in real time.
             </p>
           </div>
         </div>

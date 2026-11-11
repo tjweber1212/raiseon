@@ -33,7 +33,7 @@ export default async function AssociationPage({
   href="/associations"
   className="mb-6 inline-block text-sm text-blue-600 hover:underline"
 >
-  ← Back to My Associations
+  ← Back to My Organizations
 </Link>
         <h1 className="mb-3 text-4xl font-bold">
           {organization?.name}
