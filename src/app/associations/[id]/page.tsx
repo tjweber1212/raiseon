@@ -64,11 +64,11 @@ export default async function AssociationPage({
             </div>
 
             <h3 className="mb-2 text-xl font-semibold">
-              Add Players
+              Add Participants
             </h3>
 
             <p className="text-gray-600">
-              Import your roster or add players manually.
+              Import your roster or add participants manually.
             </p>
           </div>
 
@@ -82,7 +82,7 @@ export default async function AssociationPage({
             </h3>
 
             <p className="text-gray-600">
-              Players share links and supporters place orders online.
+              Participants share links and supporters place orders online.
             </p>
           </div>
         </div>

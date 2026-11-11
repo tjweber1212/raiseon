@@ -214,7 +214,7 @@ async function toggleStatus() {
 <section className="mt-6 rounded-xl border bg-white p-6 shadow-sm">
   <div className="flex items-center justify-between">
     <h2 className="text-lg font-semibold text-black">
-      Campaign Progress
+      Fundraiser Progress
     </h2>
 
     <span className="font-semibold text-blue-600">
