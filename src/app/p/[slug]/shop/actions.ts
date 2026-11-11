@@ -138,8 +138,14 @@ unit_amount: Math.round(item.unitPrice * 100),
 },
 quantity: item.quantity,
 })),
-success_url: "http://localhost:3000/p/" + player.slug + "/shop/success?session_id={CHECKOUT_SESSION_ID}",
-cancel_url: "http://localhost:3000/p/" + player.slug + "/shop?invite=" + inviteToken,
+success_url:
+  "https://raiseon-alpha.vercel.app/p/" +
+  player.slug +
+  "/shop/success?session_id={CHECKOUT_SESSION_ID}",
+cancel_url:
+  "https://raiseon-alpha.vercel.app/p/" +
+  player.slug +
+  "/shop",
 });
   return { checkoutUrl: checkoutSession.url };
 }
