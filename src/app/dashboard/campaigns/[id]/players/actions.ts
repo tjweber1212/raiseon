@@ -1,8 +1,8 @@
 "use server";
 
 import { Resend } from "resend";
-console.log(
-  "RESEND KEY PREFIX:",
+throw new Error(
+  "RESEND KEY PREFIX: " +
   process.env.RESEND_API_KEY?.substring(0, 12)
 );
 
