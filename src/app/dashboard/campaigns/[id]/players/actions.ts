@@ -74,6 +74,8 @@ const { data: players, error } = await supabase
 return players ?? [];
 }
 export async function sendPlayerInvite(playerId: string) {
+  throw new Error("TESTING PLAYER INVITE");
+
   const supabase = await createClient();
 
   const { data: player, error } = await supabase
