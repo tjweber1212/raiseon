@@ -31,10 +31,17 @@ async function handleSignup(
     },
   });
 
-  if (error) {
+if (error) {
+  if (error.message.includes("rate limit")) {
+    setErrorMessage(
+      "Too many verification emails have been sent. Please wait a few minutes and try again."
+    );
+  } else {
     setErrorMessage(error.message);
-    return;
   }
+
+  return;
+}
 
   if (
     data.user &&
@@ -65,7 +72,7 @@ async function handleSignup(
         </h1>
 
         <p className="mb-6 text-gray-500">
-          Create your RaisOn account to get started.
+          Create your RaiseOn account to get started.
         </p>
 {errorMessage && (
   <div className="mb-4 rounded-lg bg-red-50 p-3 text-red-700">
