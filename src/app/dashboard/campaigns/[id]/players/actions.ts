@@ -94,6 +94,11 @@ export async function sendPlayerInvite(playerId: string) {
     "?token=" +
     player.access_token;
 
+console.log(
+  "SENDING FROM:",
+  "RaiseOn <hello@useraiseon.com>"
+);
+
   const emailResult = await resend.emails.send({
     from: "RaiseOn <hello@useraiseon.com>",
     to: player.email,
