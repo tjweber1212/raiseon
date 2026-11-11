@@ -182,9 +182,9 @@ async function toggleStatus() {
          <Link   
             href={"/dashboard/campaigns/"+id+"/players"}
             className="block rounded-xl border bg-white p-6 shadow hover:border-blue-300 hover:shadow-md"
-            ><h2 className="text-xl font-bold text-black" > Players</h2>
+            ><h2 className="text-xl font-bold text-black" > Participants</h2>
             <p className="mt-2 text-gray-700">
-                Manage players in this campaign.
+                Manage participants in this campaign.
                 </p>      
           </Link>
         {ordersCard}
@@ -235,7 +235,7 @@ async function toggleStatus() {
 </section>
 <section className="mt-6 rounded-xl border bg-white p-6 shadow-sm">
   <h2 className="text-xl font-bold text-black">
-    Player Leaderboard
+    Participant Leaderboard
   </h2>
 
   <div className="mt-4 space-y-3">
