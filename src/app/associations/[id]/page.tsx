@@ -39,53 +39,12 @@ export default async function AssociationPage({
           {organization?.name}
         </h1>
 
-        <p className="mb-8 text-lg text-gray-600">
-          Launch your next fundraiser.
-        </p>
+<p className="mb-8 text-lg text-gray-600">
+  Create and manage fundraisers for your organization.
+</p>
 
-        <div className="mb-10 grid gap-6 md:grid-cols-3">
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <div className="mb-3 text-3xl font-bold text-blue-600">
-              ①
-            </div>
 
-            <h3 className="mb-2 text-xl font-semibold">
-              Create Fundraiser
-            </h3>
 
-            <p className="text-gray-600">
-              Set fundraiser dates, goals, and products.
-            </p>
-          </div>
-
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <div className="mb-3 text-3xl font-bold text-blue-600">
-              ②
-            </div>
-
-            <h3 className="mb-2 text-xl font-semibold">
-              Add Participants
-            </h3>
-
-            <p className="text-gray-600">
-              Import your roster or add participants manually.
-            </p>
-          </div>
-
-          <div className="rounded-xl border bg-white p-6 shadow-sm">
-            <div className="mb-3 text-3xl font-bold text-blue-600">
-              ③
-            </div>
-
-            <h3 className="mb-2 text-xl font-semibold">
-              Start Selling
-            </h3>
-
-            <p className="text-gray-600">
-              Participants share links and supporters place orders online.
-            </p>
-          </div>
-        </div>
 
         <div className="mb-10">
         <Link
@@ -98,9 +57,13 @@ export default async function AssociationPage({
         </div>
 
         <div className="mb-10">
-          <h2 className="mb-4 text-2xl font-bold">
-            Fundraisers
-          </h2>
+<h2 className="mb-2 text-2xl font-bold">
+  Your Fundraisers
+</h2>
+
+<p className="mb-4 text-gray-600">
+  Select a fundraiser to manage participants, products, and orders.
+</p>
 
           <div className="space-y-4">
             {campaigns?.map((campaign) => (
@@ -109,28 +72,19 @@ export default async function AssociationPage({
                 href={`/dashboard/campaigns/${campaign.id}`}
                 className="block rounded-xl border bg-white p-6 shadow-sm hover:border-blue-300"
               >
-                <h3 className="text-xl font-semibold">
-                  {campaign.name}
-                </h3>
+<h3 className="text-xl font-semibold">
+  {campaign.name}
+</h3>
+
+<div className="mt-3 font-semibold text-blue-600">
+  Manage Fundraiser →
+</div>
               </Link>
             ))}
           </div>
         </div>
 
-        <div className="border-t pt-8">
-          <h2 className="mb-2 text-xl font-semibold">
-            Optional Setup
-          </h2>
 
-          <p className="mb-4 text-gray-600">
-            Invite coaches, board members, booster club leaders,
-            or volunteers to help manage fundraising activities.
-          </p>
-
-          <button className="rounded-lg border px-4 py-2 hover:bg-gray-50">
-            Invite Administrator
-          </button>
-        </div>
       </div>
     </main>
   );
