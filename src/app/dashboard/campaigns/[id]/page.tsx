@@ -103,10 +103,15 @@ const campaignProgress =
   createElement(
     "p",
     { className: "mt-2 text-gray-700" },
-    "Manage products available for sale."
+    "Add, edit, and manage fundraiser products."
   )
+  
 );
-
+createElement(
+  "div",
+  { className: "mt-4 font-semibold text-blue-600" },
+  "Manage Products →"
+)
     const ordersCard = createElement(
   Link,
   {
