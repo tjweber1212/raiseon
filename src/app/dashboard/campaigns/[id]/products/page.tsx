@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
 import { addProduct, getProducts } from "./actions";
+import { createClient } from "@/lib/supabase/client";
 
 type Props = {
   params: Promise<{
@@ -25,9 +26,18 @@ function ProductsForm({
   campaignId: string;
 }) {
     const router = useRouter();
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [products, setProducts] = useState<{ id: string; name: string; price: number }[]>([]);
+const [name, setName] = useState("");
+const [price, setPrice] = useState("");
+const [imageFile, setImageFile] = useState<File | null>(null);
+
+const [products, setProducts] = useState<
+  {
+    id: string;
+    name: string;
+    price: number;
+    image_url?: string | null;
+  }[]
+>([]);
 
 useEffect(() => {
   async function loadProducts() {
@@ -56,10 +66,33 @@ if (isNaN(numericPrice)) {
   return;
 }
 
+let imageUrl: string | undefined;
+
+if (imageFile) {
+  const supabase = createClient();
+
+  const fileName = `${campaignId}/${Date.now()}-${imageFile.name}`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("product-images")
+    .upload(fileName, imageFile);
+
+  if (uploadError) {
+    throw new Error(uploadError.message);
+  }
+
+  const { data } = supabase.storage
+    .from("product-images")
+    .getPublicUrl(fileName);
+
+  imageUrl = data.publicUrl;
+}
+
 await addProduct({
   campaignId,
   name,
-price: numericPrice,
+  price: numericPrice,
+  imageUrl,
 });
 } catch (error) {
  const message = error instanceof Error ? error.message : "Unable to add product.";
@@ -73,6 +106,7 @@ setProducts(updatedProducts);
 
     setName("");
     setPrice("");
+    setImageFile(null);
   }
 
   return (
@@ -82,7 +116,7 @@ setProducts(updatedProducts);
   onClick={() => router.push("/dashboard/campaigns/" + campaignId)}
   className="mb-6 text-sm font-semibold text-blue-600 hover:underline"
 >
-  ← Back to Campaign Dashboard
+  ← Back to Fundraiser Dashboard
 </button>
       <h1 className="mb-6 text-4xl font-bold text-black">
         Products
@@ -106,7 +140,14 @@ setProducts(updatedProducts);
   inputMode="decimal"
   className="w-full rounded-lg border p-3"
 />
-
+<input
+  type="file"
+  accept="image/*"
+  onChange={(e) =>
+    setImageFile(e.target.files?.[0] ?? null)
+  }
+  className="w-full rounded-lg border p-3"
+/>
         <button
           type="submit"
           className="rounded-lg bg-black px-6 py-3 text-white"
@@ -117,8 +158,22 @@ setProducts(updatedProducts);
       <h2 className="mt-10 text-2xl font-bold">Current Products</h2>
       <div className="mt-4 space-y-3">
         {products.map((product) => (
-            <div key={product.id} className="rounded-lg border bg-white p-4">
-  <p className="font-semibold">{product.name}</p>
+<div
+  key={product.id}
+  className="rounded-lg border bg-white p-4"
+>
+  {product.image_url && (
+    <img
+      src={product.image_url}
+      alt={product.name}
+      className="mb-3 h-32 w-32 rounded-lg object-cover"
+    />
+  )}
+
+  <p className="font-semibold">
+    {product.name}
+  </p>
+
   <p className="text-sm text-gray-600">
     ${Number(product.price).toFixed(2)}
   </p>

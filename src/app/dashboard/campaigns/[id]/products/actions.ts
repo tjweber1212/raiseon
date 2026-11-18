@@ -5,10 +5,12 @@ export async function addProduct({
   campaignId,
   name,
   price,
+  imageUrl,
 }: {
   campaignId: string;
   name: string;
   price: number;
+  imageUrl?: string;
 }) {
     const cleanName = name.trim();
     if (!cleanName || !Number.isFinite(price) || price < 0) {
@@ -22,11 +24,12 @@ const supabase = await createClient();
 }
 const { error } = await supabase
   .from("products")
-  .insert({
-    campaign_id: campaignId,
-    name: cleanName,
-    price,
-  });
+.insert({
+  campaign_id: campaignId,
+  name: cleanName,
+  price,
+  image_url: imageUrl ?? null,
+});
 
 if (error) {
   throw new Error(error.message);
@@ -44,7 +47,7 @@ if (claimsError || !claimsData?.claims) {
 }
 const { data: products, error } = await supabase
   .from("products")
-  .select("id, name, price")
+  .select("id, name, price, image_url")
   .eq("campaign_id", campaignId)
   .order("name", { ascending: true });
   if (error) {
