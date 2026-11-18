@@ -1,7 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { addProduct, getProducts } from "./actions";
+import {
+  addProduct,
+  getProducts,
+  updateProduct,
+  deleteProduct,
+} from "./actions";
 import { createClient } from "@/lib/supabase/client";
 
 type Props = {
@@ -29,6 +34,9 @@ function ProductsForm({
 const [name, setName] = useState("");
 const [price, setPrice] = useState("");
 const [imageFile, setImageFile] = useState<File | null>(null);
+const [editingId, setEditingId] = useState<string | null>(null);
+const [editName, setEditName] = useState("");
+const [editPrice, setEditPrice] = useState("");
 
 const [products, setProducts] = useState<
   {

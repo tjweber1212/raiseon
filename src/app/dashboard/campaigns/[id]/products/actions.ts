@@ -56,3 +56,45 @@ const { data: products, error } = await supabase
 
 return products ?? [];
 }
+export async function updateProduct({
+  productId,
+  name,
+  price,
+}: {
+  productId: string;
+  name: string;
+  price: number;
+}) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("products")
+    .update({
+      name: name.trim(),
+      price,
+    })
+    .eq("id", productId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { success: true };
+}
+
+export async function deleteProduct(
+  productId: string
+) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("products")
+    .delete()
+    .eq("id", productId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { success: true };
+}
