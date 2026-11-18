@@ -186,7 +186,7 @@ setProducts(updatedProducts);
   <p className="text-sm text-gray-600">
     ${Number(product.price).toFixed(2)}
   </p>
-  <div className="mt-3">
+  <div className="mt-3 flex gap-2">
 <button
   type="button"
   className={`rounded px-3 py-2 text-white ${
@@ -210,6 +210,39 @@ setProducts(updatedProducts);
     ? "Deactivate"
     : "Activate"}
 </button>
+<button
+  type="button"
+  className="rounded bg-blue-600 px-3 py-2 text-white"
+  onClick={() => {
+    const newName = prompt(
+      "Product Name",
+      product.name
+    );
+
+    if (!newName) return;
+
+    const newPrice = prompt(
+      "Price",
+      String(product.price)
+    );
+
+    if (!newPrice) return;
+
+    updateProduct({
+      productId: product.id,
+      name: newName,
+      price: Number(newPrice),
+    }).then(async () => {
+      const updatedProducts =
+        await getProducts(campaignId);
+
+      setProducts(updatedProducts);
+    });
+  }}
+>
+  Edit
+</button>
+
 </div>
 </div>
 ))}
