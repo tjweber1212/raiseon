@@ -39,7 +39,7 @@ contact = data;
 }
 const { data: products, error: productsError } = await supabaseServer
   .from("products")
-  .select("id, name, price")
+  .select("id, name, price, image_url")
   .eq("campaign_id", player.campaign_id)
   .eq("active", true);
 
@@ -56,7 +56,7 @@ const { data: products, error: productsError } = await supabaseServer
     className="mx-auto mt-4 h-40 w-40 rounded-full object-cover border-4 border-white shadow"
   />
 )}
-``
+
 <h1 className="mt-4 text-3xl font-bold">
   Support {player.name}'s Fundraiser
 </h1>
@@ -79,7 +79,9 @@ const { data: products, error: productsError } = await supabaseServer
     id: product.id,
     name: product.name,
     price: Number(product.price),
+    image_url: product.image_url,
   }))}
+
   contactId={contact?.id ?? null}
   playerId={player.id}
   campaignId={player.campaign_id}
