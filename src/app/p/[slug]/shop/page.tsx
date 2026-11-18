@@ -75,12 +75,12 @@ const { data: products, error: productsError } = await supabaseServer
           <p>No products available.</p>
         ) : (
 <ShopCart
-  products={products.map((product) => ({
-    id: product.id,
-    name: product.name,
-    price: Number(product.price),
-    image_url: product.image_url,
-  }))}
+products={products.map((product) => ({
+  id: product.id,
+  name: product.name,
+  price: Number(product.price),
+  image_url: product.image_url,
+}))}
 
   contactId={contact?.id ?? null}
   playerId={player.id}

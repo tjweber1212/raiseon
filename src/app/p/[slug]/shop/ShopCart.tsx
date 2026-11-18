@@ -109,6 +109,13 @@ return (
               key={product.id}
               className="rounded-xl border bg-white p-5 shadow-sm"
             >
+              {product.image_url && (
+  <img
+    src={product.image_url}
+    alt={product.name}
+    className="mb-4 h-48 w-full rounded-lg object-cover"
+  />
+)}
               <h2 className="text-xl font-semibold">
                 {product.name}
               </h2>
