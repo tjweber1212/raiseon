@@ -47,7 +47,7 @@ if (claimsError || !claimsData?.claims) {
 }
 const { data: products, error } = await supabase
   .from("products")
-  .select("id, name, price, image_url")
+  .select("id, name, price, image_url, active")
   .eq("campaign_id", campaignId)
   .order("name", { ascending: true });
   if (error) {
@@ -90,6 +90,23 @@ export async function deleteProduct(
   const { error } = await supabase
     .from("products")
     .delete()
+    .eq("id", productId);
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { success: true };
+}
+export async function toggleProductActive(
+  productId: string,
+  active: boolean
+) {
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("products")
+    .update({ active })
     .eq("id", productId);
 
   if (error) {

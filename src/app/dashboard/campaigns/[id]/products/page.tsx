@@ -5,7 +5,7 @@ import {
   addProduct,
   getProducts,
   updateProduct,
-  deleteProduct,
+  toggleProductActive,
 } from "./actions";
 import { createClient } from "@/lib/supabase/client";
 
@@ -40,11 +40,12 @@ const [editPrice, setEditPrice] = useState("");
 
 const [products, setProducts] = useState<
   {
-    id: string;
-    name: string;
-    price: number;
-    image_url?: string | null;
-  }[]
+  id: string;
+  name: string;
+  price: number;
+  image_url?: string | null;
+  active: boolean;
+}[]
 >([]);
 
 useEffect(() => {
@@ -186,24 +187,29 @@ setProducts(updatedProducts);
     ${Number(product.price).toFixed(2)}
   </p>
   <div className="mt-3">
-  <button
-    type="button"
-    className="rounded bg-red-600 px-3 py-2 text-white"
-    onClick={async () => {
-      if (!confirm("Delete this product?")) {
-        return;
-      }
+<button
+  type="button"
+  className={`rounded px-3 py-2 text-white ${
+    product.active
+      ? "bg-orange-600"
+      : "bg-green-600"
+  }`}
+  onClick={async () => {
+    await toggleProductActive(
+      product.id,
+      !product.active
+    );
 
-      await deleteProduct(product.id);
+    const updatedProducts =
+      await getProducts(campaignId);
 
-      const updatedProducts =
-        await getProducts(campaignId);
-
-      setProducts(updatedProducts);
-    }}
-  >
-    Delete
-  </button>
+    setProducts(updatedProducts);
+  }}
+>
+  {product.active
+    ? "Deactivate"
+    : "Activate"}
+</button>
 </div>
 </div>
 ))}
