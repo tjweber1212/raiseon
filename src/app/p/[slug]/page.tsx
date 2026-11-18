@@ -20,7 +20,7 @@ export default async function PlayerPage({
 
 const { data: player, error } = await supabaseServer
   .from("players")
-  .select("*")
+  .select("*, access_token")
   .eq("slug", slug)
   .eq("access_token", accessToken)
   .single();
@@ -45,10 +45,7 @@ async function savePhoto(formData: FormData) {
   const { redirect } = await import("next/navigation");
 
   redirect(
-    "/p/" +
-      player.slug +
-      "?token=" +
-      encodeURIComponent(accessToken!)
+    `/p/${player.slug}?token=${player.access_token}`
   );
 }
 
