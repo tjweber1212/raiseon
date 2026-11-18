@@ -30,10 +30,6 @@ if (error || !player) {
   return (
     <main className="p-6">
       <h1>Player Not Found</h1>
-
-      <p>Slug: {slug}</p>
-
-      <p>Token: {accessToken ?? "NO TOKEN"}</p>
     </main>
   );
 }
