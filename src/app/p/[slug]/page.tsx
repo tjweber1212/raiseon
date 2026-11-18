@@ -151,13 +151,16 @@ className:
 )}
 
   <form action={savePhoto} className="mt-4">
-<input
-  type="file"
-  name="photo"
-  accept="image/*"
-  className="mb-4 block text-sm"
-  required
-/>
+<label className="mb-4 inline-block cursor-pointer rounded-lg border border-gray-300 px-4 py-3 text-sm font-medium hover:bg-gray-50">
+  Choose New Photo
+  <input
+    type="file"
+    name="photo"
+    accept="image/*"
+    className="hidden"
+    required
+  />
+</label>
 
     <button
       type="submit"
