@@ -30,9 +30,10 @@ export async function uploadPlayerPhoto(
       upsert: true,
     });
 
-  if (uploadError) {
-    throw new Error(uploadError.message);
-  }
+if (uploadError) {
+  console.error("PHOTO UPLOAD ERROR:", uploadError);
+  throw new Error("PHOTO UPLOAD ERROR: " + uploadError.message);
+}
 
   const { data } = supabaseServer.storage
     .from("player-photos")
@@ -47,9 +48,10 @@ export async function uploadPlayerPhoto(
     })
     .eq("id", playerId);
 
-  if (updateError) {
-    throw new Error(updateError.message);
-  }
+if (updateError) {
+  console.error("PLAYER UPDATE ERROR:", updateError);
+  throw new Error("PLAYER UPDATE ERROR: " + updateError.message);
+}
 
   return photoUrl;
 }
