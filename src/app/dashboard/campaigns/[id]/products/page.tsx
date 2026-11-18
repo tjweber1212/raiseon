@@ -185,6 +185,26 @@ setProducts(updatedProducts);
   <p className="text-sm text-gray-600">
     ${Number(product.price).toFixed(2)}
   </p>
+  <div className="mt-3">
+  <button
+    type="button"
+    className="rounded bg-red-600 px-3 py-2 text-white"
+    onClick={async () => {
+      if (!confirm("Delete this product?")) {
+        return;
+      }
+
+      await deleteProduct(product.id);
+
+      const updatedProducts =
+        await getProducts(campaignId);
+
+      setProducts(updatedProducts);
+    }}
+  >
+    Delete
+  </button>
+</div>
 </div>
 ))}
 </div>
