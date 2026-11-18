@@ -26,13 +26,17 @@ const { data: player, error } = await supabaseServer
   .single();
 
 
-  if (error || !player) {
-    return (
-      <main className="p-6">
-        <h1>Player Not Found</h1>
-      </main>
-    );
-  }
+if (error || !player) {
+  return (
+    <main className="p-6">
+      <h1>Player Not Found</h1>
+
+      <p>Slug: {slug}</p>
+
+      <p>Token: {accessToken ?? "NO TOKEN"}</p>
+    </main>
+  );
+}
 
 
     
