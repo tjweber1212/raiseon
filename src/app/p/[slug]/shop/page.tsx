@@ -37,10 +37,11 @@ const { data } = await supabaseServer
 
 contact = data;
 }
-  const { data: products, error: productsError } = await supabaseServer
-    .from("products")
-    .select("id, name, price")
-    .eq("campaign_id", player.campaign_id);
+const { data: products, error: productsError } = await supabaseServer
+  .from("products")
+  .select("id, name, price")
+  .eq("campaign_id", player.campaign_id)
+  .eq("active", true);
 
   return (
     <main className="mx-auto max-w-4xl p-6">
