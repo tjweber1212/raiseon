@@ -134,36 +134,36 @@ className:
 
 
 <section className="mt-6 rounded-xl border bg-white p-6 shadow-sm">
-  <h2 className="mb-4 text-lg font-semibold">
-    Player Photo
-  </h2>
+<h2 className="mb-4 text-lg font-semibold">
+  Update Player Photo
+</h2>
 
-  {player.photo_url ? (
-    <img
-      src={player.photo_url}
-      alt={player.name}
-      className="h-48 w-48 rounded-lg object-cover"
-    />
-  ) : (
-    <p className="mb-4 text-gray-600">
-      No photo uploaded yet.
-    </p>
-  )}
+{player.photo_url ? (
+  <img
+    src={player.photo_url}
+    alt={player.name}
+    className="h-48 w-48 rounded-lg object-cover"
+  />
+) : (
+  <p className="mb-4 text-gray-600">
+    No photo uploaded yet.
+  </p>
+)}
 
   <form action={savePhoto} className="mt-4">
-    <input
-      type="file"
-      name="photo"
-      accept="image/*"
-      className="mb-4 block"
-      required
-    />
+<input
+  type="file"
+  name="photo"
+  accept="image/*"
+  className="mb-4 block text-sm"
+  required
+/>
 
     <button
       type="submit"
       className="rounded-lg bg-blue-600 px-4 py-2 text-white"
     >
-      Upload Photo
+      Replace Photo
     </button>
   </form>
 </section>  
